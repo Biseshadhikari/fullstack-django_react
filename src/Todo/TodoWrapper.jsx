@@ -6,48 +6,8 @@ import axios from 'axios';
 
 
 function TodoWrapper() {
-const [title,setTitle] = useState({})
-const [posts,setPosts] = useState([])
-const [isLoading,setIsLoading] = useState(true)
-    useEffect(()=>{ 
-        getData()
-    },[])
 
-    async function getData(){
-        try{ 
-            const response = await axios.get('http://127.0.0.1:8000/todos/')
-        // setPosts()
-        
-        if (response.status == 200){ 
-            setPosts(response.data)
-            setIsLoading(false)
-        }
-        } catch{
-            console.log('error occured')
-        }
-        
-        
-        
-    }
-    async function createTodo(title){
-        try{ 
-            const response = await axios.post('http://127.0.0.1:8000/createTodo/',
-                { 
-                    "title":title,
-                    "is_completed":false
-                }
-            )
-            getData()
-            
-           
-        } catch{
-            console.log('error occured')
-        }
-        
-        
-        
-    }
-
+    const {isLoading,changeIsCompleted,createTodo,updateTodo,deleteTodo,posts} = useTodoContext()
 
 
 
@@ -64,7 +24,7 @@ const [isLoading,setIsLoading] = useState(true)
             
     
             {posts.map(post=>(
-                <TodoList key ={post.id} post ={post}/>
+                <TodoList changeIsCompleted = {changeIsCompleted} deleteTodo = {deleteTodo} updateTodo = {updateTodo} key ={post.id} post ={post}/>
             ))}
             
             
